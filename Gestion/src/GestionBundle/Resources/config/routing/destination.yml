@@ -1,0 +1,23 @@
+user_index:
+    path:     /
+    defaults: { _controller: AdminBundle:UserAdmin:index }
+
+user_add:
+    path:     /add
+    defaults: { _controller: AdminBundle:UserAdmin:add }
+
+user_view:
+    path:     /view/{id}
+    defaults: { _controller: AdminBundle:UserAdmin:view }
+
+user_edit:
+    path:     /edit/{id}
+    defaults: { _controller: AdminBundle:UserAdmin:edit }
+
+user_delete:
+    path:     /delete/{id}
+    defaults: { _controller: AdminBundle:UserAdmin:delete }
+
+user_profile:
+    path:     /profile/{id}
+    defaults: { _controller: AdminBundle:UserAdmin:profile }

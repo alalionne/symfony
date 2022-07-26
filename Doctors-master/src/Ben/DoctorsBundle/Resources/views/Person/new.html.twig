@@ -1,0 +1,74 @@
+{% extends "BenDoctorsBundle::layout.html.twig" %}
+{% block title %}
+Tableau de bord | {{ parent() }}
+{% endblock %}
+{% block stylesheet %}
+    {{ parent() }}
+    <link href="{{ asset('bootstrap/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+<div class="col-md-12">
+    <h3><span class="glyphicon glyphicon-user"></span> Inscription d'un nouveau etudiant</h3>
+
+<form action="{{ path('person_create') }}"  class="form-horizontal col-md-8" method="post">
+
+    {% include "BenDoctorsBundle:Person:form.html.twig" %}
+
+    <div class="form-group">
+      <div class="col-sm-offset-6 col-sm-6">
+        <button type="submit" name="subvalider" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Ajouter</button>
+      </div>
+    </div>
+</form>
+</div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap-datetimepicker.js') }}"></script> 
+<script> 
+    (function($) {
+
+        $('.has-datepicker').attr('data-date-format', 'YYYY-MM-DD').parent().datetimepicker({
+          pickTime: false
+        });
+
+        cityData = $.map(cityData, function(val,index){return {id:val, text:val};});
+        $('#ben_person_city').removeClass('form-control').select2({
+          createSearchChoice:function(term, data) { if ($(data).filter(function() { return this.text.localeCompare(term)===0; }).length===0) {return {id:term, text:term};} },
+          multiple: false,
+          data: cityData
+        });
+        $('select').removeClass('form-control').select2({minimumResultsForSearch: -1});
+
+        /* handicap */
+        var ishandicap = $('#ben_person_ishandicap'),
+            handicap = ishandicap.closest('.form-group').next().hide();
+            needs = handicap.closest('.form-group').next().hide();
+
+        if(ishandicap.is(":checked")){
+            handicap.show();
+            needs.show();
+        }
+        ishandicap.on('change', function(){
+          if(ishandicap.is(":checked")){
+            handicap.show();
+            needs.show();
+          }
+          else {
+            handicap.hide();
+            needs.hide();
+          }
+        });
+
+        universityData = $.map(universityData, function(val,index){return {id:val, text:val};});
+        $('#ben_person_university').removeClass('form-control').select2({
+          createSearchChoice:function(term, data) { if ($(data).filter(function() { return this.text.localeCompare(term)===0; }).length===0) {return {id:term, text:term};} },
+          multiple: false,
+          data: universityData
+        });
+
+    })(jQuery);
+</script>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "BenLogementBundle::layout.html.twig" %}
+{% block title %}
+Tableau de bord | {{ parent() }}
+{% endblock %}
+{% block body %}
+<div class="col-md-12"><h3>Liste des pavillons </h3></div>
+<div class="col-md-9"> 
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nom du pavillon</th>
+            <th>Nombre des étages</th>
+            <th>Nombre de chambre</th>
+            <th>Type</th>
+            <th class="hide-print">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ entity.name }}</td>
+            <td>{{ entity.floors }}</td>
+            <td>{{ entity.rooms|length }}</td>
+            <td>{{ entity.type }}</td>
+            <td class="hide-print">
+                <div class="text-center">
+                    <a class="btn btn-info btn-xs" href="{{ path('block_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-search"></span></a>
+                    <a class="btn btn-danger btn-xs" href="{{ path('block_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-edit"></span></a>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<div class="col-md-3">
+    <a class="btn btn-primary btn-block hide" href="{{ path('block_new') }}"> Ajouter un pavillon</a>
+    <a id="btnPrint" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-print"></span> imprimer</a>
+        <div class="caption text-center">
+          <strong>Total:</strong> <em>{{ entities|length }} Pavillons</em>
+        </div>
+</div>
+{% endblock body %}

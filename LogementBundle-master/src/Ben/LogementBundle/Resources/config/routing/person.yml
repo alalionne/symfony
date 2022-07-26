@@ -1,0 +1,97 @@
+etudiant:
+    pattern:  /etat_{status}
+    defaults: { _controller: "BenLogementBundle:Person:index", status: all}
+
+etudiant_elegible:
+    pattern:  /elegible
+    defaults: { _controller: "BenLogementBundle:Person:listElegible"}
+
+etudiant_ajax:
+    pattern:  /etudiants-list
+    defaults: { _controller: BenLogementBundle:Person:ajaxList }
+    requirements: { _method: post }
+
+etudiant_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "BenLogementBundle:Person:show" }
+
+etudiant_new:
+    pattern:  /new/{type}
+    defaults: { _controller: "BenLogementBundle:Person:new" , type: nouveau}
+
+etudiant_create:
+    pattern:  /create
+    defaults: { _controller: "BenLogementBundle:Person:create" }
+    requirements: { _method: post }
+
+etudiant_edit:
+    pattern:  /{id}/edit/{type}
+    defaults: { _controller: "BenLogementBundle:Person:edit" }
+
+etudiant_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "BenLogementBundle:Person:update" }
+    requirements: { _method: post }
+
+etudiant_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "BenLogementBundle:Person:delete" }
+    requirements: { _method: post }
+
+etudiant_remove_some:
+    pattern:  /removeSome
+    defaults: { _controller: "BenLogementBundle:Person:removeSome" }
+    requirements: { _method: post }
+
+etudiant_status:
+    pattern:  /status/{status}
+    defaults: { _controller: "BenLogementBundle:Person:setStatus"}
+    requirements: { _method: post }
+
+etudiant_cancel:
+    pattern:  /cancel
+    defaults: { _controller: "BenLogementBundle:Person:cancel"}
+    requirements: { _method: post }
+
+etudiant_generate_list:
+    pattern:  /generate/list
+    defaults: { _controller: BenLogementBundle:Person:generateList }
+
+etudiant_generate_list_university:
+    pattern:  /generate/list/university
+    defaults: { _controller: BenLogementBundle:Person:generateListByUniversity }
+    requirements: { _method: post }
+
+etudiant_generate_list_quota:
+    pattern:  /generate/list/quota
+    defaults: { _controller: BenLogementBundle:Person:generateListByQuota }
+    requirements: { _method: post }
+
+etudiant_university_gender:
+    pattern:  /university/gender
+    defaults: { _controller: BenLogementBundle:Person:universityBygender }
+
+etudiant_validate_list:
+    pattern:  /generate/list/valide
+    defaults: { _controller: BenLogementBundle:Person:validateList }
+    requirements: { _method: post }
+
+etudiant_to_excel:
+    pattern:  /export/excel/{status}
+    defaults: { _controller: BenLogementBundle:Person:toExcel , status: all}
+
+etudiant_to_pdf:
+    pattern:  /pdf/{type}-{status}
+    defaults: { _controller: "BenLogementBundle:Person:toPdf" , type: all, status: all}
+
+etudiant_prepare_pdf:
+    pattern:  /prepare/pdf
+    defaults: { _controller: "BenLogementBundle:Person:prepareToPdf" }
+
+order_clear:
+    pattern:  /orders/clear
+    defaults: { _controller: "BenLogementBundle:Person:clearOrders" }
+
+update_db:
+    pattern:  /update/db
+    defaults: { _controller: "BenLogementBundle:Person:addOneYear" }

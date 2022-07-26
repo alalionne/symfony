@@ -1,0 +1,15 @@
+gestion_dashboard:
+    path:     /
+    defaults: { _controller: GestionBundle:Default:index }
+
+gestion_produit:
+    resource: "@GestionBundle/Resources/config/routing/produit.yml"
+    prefix:   /produit
+
+gestion_categorie:
+    resource: "@GestionBundle/Resources/config/routing/categorie.yml"
+    prefix:   /categorie
+
+gestion_commande:
+    resource: "@GestionBundle/Resources/config/routing/commande.yml"
+    prefix:   /commande

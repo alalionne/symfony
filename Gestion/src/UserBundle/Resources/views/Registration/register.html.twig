@@ -1,0 +1,39 @@
+<div class="row-fluid registerform">
+    <form class="span6 form-inline" action="{{ path('fos_user_registration_register') }}"  method="POST">  
+             <div class="control-group {% if form_errors(form.username)|length >1 %} error{% endif %}">
+                <label for="username" class="control-label">Nom d'utilisateur</label>
+                <div class="controls">
+                    {{ form_widget(form.username) }}   
+                  <span class="help-inline">{{ form_errors(form.username) }}</span> 
+                    </div>
+                </div> 
+                 <div class="control-group {% if form_errors(form.email)|length >1 %} error{% endif %}">
+                    <label for="username" class="control-label">Adresse e-mail</label>
+                    <div class="controls">
+           {{ form_widget(form.email) }}
+            <span class="help-inline">{{ form_errors(form.email) }}</span> 
+                        </div>
+                    </div> 
+                    <div class="control-group {% if form_errors(form.plainPassword.first)|length >1 %} error{% endif %}">
+                        <label for="username" class="control-label">Créer un mot de passe</label>
+                        <div class="controls">
+           {{ form_widget(form.plainPassword.first) }}
+           <span class="help-inline">{{ form_errors(form.plainPassword.first) }}</span> 
+                            </div>
+                        </div> 
+                       <div class="control-group">
+                            <label for="username" class="control-label">Confirmer votre mot de passe</label>
+                            <div class="controls">
+           {{ form_widget(form.plainPassword.second) }}
+                                </div>
+                            </div>  
+
+                            <div class="control-group">
+                                <div class="controls">
+                                    <button type="submit" class="btn btn-info">S'inscrire <i class="icon-white icon-edit"></i></button>
+                                </div>
+                            </div>
+{{ form_rest(form) }}             
+    </form>
+
+</div>

@@ -1,0 +1,41 @@
+{% extends "GestionBundle::layout.html.twig"%}
+{% block title %}
+Tableau de bord | {{ parent() }}
+{% endblock %}
+{% block body -%}
+<h3><span class="glyphicon glyphicon-eye-open"></span> Voir Produit</h3>
+<div id="mycontainer" class="row">
+    <div class="col-md-9">    
+                <table class="table table-striped table-advance table-hover">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ entity.id }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Dci </th>
+                            <td>{{ entity.dci }}</td>
+                        </tr>
+                         <tr>
+                            <th>Nature </th>
+                            <td>{{ entity.nature }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Discipline </th>
+                            <td>{{ entity.categorie.nom }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+    </div>
+        <div class="col-md-3">
+                    
+            <a class="btn btn-embossed btn-info btn-block" href="{{ path('produit_edit', { 'id': entity.id }) }}"><span class="fui-new">Editer</span></a>
+
+            <a class="btn btn-embossed btn-danger btn-block" href="{{ path('produit_delete', { 'id': entity.id }) }}">Supprimer</a>
+
+            <a class="btn btn-embossed btn-primary btn-block" href="{{ path('produit_index', { 'id': entity.id }) }}"><span class="fui-new">Retour </span></a>
+        </div>
+</div>
+{% endblock %}

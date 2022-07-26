@@ -1,0 +1,27 @@
+niveau_index:
+    path:     /
+    defaults: { _controller: AdminBundle:Niveau:index }
+
+niveau_add:
+    path:     /add
+    defaults: { _controller: AdminBundle:Niveau:add }
+
+niveau_edit:
+    path:     /edit/{id}
+    defaults: { _controller: AdminBundle:Niveau:edit }
+
+niveau_delete:
+    path:     /delete/{id}
+    defaults: { _controller: AdminBundle:Niveau:delete }
+
+niveau_view:
+    path:     /view/{id}
+    defaults: { _controller: AdminBundle:Niveau:view }
+    
+niveau_sn:
+    path:     /sousn/{id}
+    defaults: { _controller: AdminBundle:Niveau:sousn }
+
+niveau_maternelle:
+    path:     /maternelle/{id}
+    defaults: { _controller: AdminBundle:Niveau:maternelle }

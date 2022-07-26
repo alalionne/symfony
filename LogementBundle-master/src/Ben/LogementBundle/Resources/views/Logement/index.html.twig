@@ -1,0 +1,47 @@
+{% extends "BenLogementBundle::layout.html.twig" %}
+{% block title %}
+Tableau de bord | {{ parent() }}
+{% endblock %}
+{% block body %}
+<h2>Liste des logements 
+{% if is_granted("ROLE_MANAGER") %}<a class="btn btn-primary pull-right hidden-print" href="{{ path('logement_new') }}"><span class="glyphicon glyphicon-plus"></span> Ajouter un logement</a>{% endif %}
+</h2>
+
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nom</th>
+            <th>Ville</th>
+            <th>Nombre de place pour les étrangers</th>
+            <th>Nombre de place pour les anciens</th>
+            {% if is_granted("ROLE_MANAGER") %}<th class="hidden-print">Actions</th>{% endif %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{ entity.name }}</td>
+            <td>{{ entity.city }}</td>
+            <td>{{ entity.placeetranger }}</td>
+            <td>{{ entity.placeancien }}</td>
+            {% if is_granted("ROLE_MANAGER") %}
+            <td class="hidden-print">
+                <div class="text-center">
+                    <a class="btn btn-info btn-xs" href="{{ path('logement_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-search"></span></a>
+                    <a class="btn btn-danger btn-xs" href="{{ path('logement_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-edit"></span></a>
+                </div>
+            </td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="caption">
+  <strong>Total:</strong> <em>{{ entities|length }} Logement</em>
+</div>
+
+
+        
+{% endblock body %}

@@ -1,0 +1,25 @@
+{% for entity in entities %}
+  <tr>
+    <td {% if entity.enabled %}class="active-row"{% endif %}><input type="checkbox" name="users[]" value="{{ entity.id }}"></td>
+    <td>{{ entity.username }}</td>
+    <td>{{ entity.fullName }}</td>
+    <td>{{ entity.email }}</td>
+    <td>{{ entity.tel }}</td>
+    <td>{% if entity.logement %}{{ entity.logement.name }}{% endif %}</td>
+    <td>{{ entity.role}}</td>
+    <td class="hide-print">
+        <a class="btn " href="{{ path('ben_edit_user', {id: entity.id }) }}"><span class="glyphicon glyphicon-edit"></span> modifier</a>
+    </td>
+  </tr>
+{% else %}
+    <tr class="mypagination">            
+        <td colspan="10">
+            <div id="msgbox" class="alert alert-danger fade in" role="alert"> 
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>info !</strong> aucun résultat ne correspond à vos critères
+            </div>
+        </td>
+    </tr>
+{% endfor %}
+                
+{% include "BenLogementBundle:Default:pagination.html.twig" %}

@@ -1,0 +1,63 @@
+{% extends "BenLogementBundle::layout.html.twig" %}
+{% block title %}
+Tableau de bord | {{ parent() }}
+{% endblock %}
+{% block body %}
+<div class="col-md-12"><h3><span class="glyphicon glyphicon-file"></span> Liste des réservations</h3></div>
+<div class="col-md-9">
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Etudiant</th>
+            <th>Chambre</th>
+            <th>Date début</th>
+            <th>Date fin</th>
+            <th>Etat</th>
+            <th>Montant</th>
+            <th class="hide-print">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ entity.person.fullName }}</td>
+            <td>{{ entity.room.name }}</td>
+            <td>{% if entity.datefrom %}{{ entity.datefrom|date('d/m/Y') }}{% endif %}</td>
+            <td>{% if entity.dateto %}{{ entity.dateto|date('d/m/Y') }}{% endif %}</td>
+            <td>{{ entity.status }}</td>
+            <td>{{ entity.price }}</td>
+            <td class="hide-print">
+                <div class="text-center">
+                    <a class="btn btn-info btn-xs" href="{{ path('reservation_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-search"></span></a>
+                    <a class="btn btn-danger btn-xs" href="{{ path('reservation_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-edit"></span></a>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    {% if pagination|length > 1 %}
+    <tr class="mypagination hide-print">
+        <td colspan="10">
+          <div class="text-center">
+              <ul class="pagination">
+                {% for p in pagination %}
+                <li{% if p.is_current %} class="active"{% endif %}>
+                  <a href="{{ path('reservation', { 'page': p.page_number }) }}" class="js-page">{{ p.label }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+          </div>
+        </td>
+    </tr>
+    {% endif %}
+    </tbody>
+</table>
+</div>
+<div class="col-md-3">
+    <a class="btn btn-primary btn-block" href="{{ path('reservation', { 'status': 'valide' }) }}">Reservations valide</a>
+    <a class="btn btn-primary btn-block" href="{{ path('reservation', { 'status': 'non valide' }) }}">Reservations non valide</a>
+    <a id="btnPrint" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-print"></span> Imprimer cette page</a>
+</div>
+
+{% endblock body %}

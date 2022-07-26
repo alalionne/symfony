@@ -1,0 +1,142 @@
+{% extends "GestionBundle::layout.html.twig" %}
+{% block title %}
+Tableau de bord | {{ parent() }}
+{% endblock %}
+    {% block stylesheet %}
+   {{ parent() }}   
+        <link href="{{ asset('css/daterangepicker-bs3.css') }}" rel="stylesheet"><!-- Loading my css -->
+        <style>
+			.links #reportrange, .links .btn {margin-top: 20px; margin-left: 5px;}
+			.links .btn{padding: 7px 16px !important;}
+        </style>
+    {% endblock %}
+{% block body -%}
+
+<form action="#" id="js-form">
+<input id="pagenumber" type="hidden" name="searchParam[page]" value="1"> 
+<input id="sortBy" type="hidden" name="searchParam[sortBy]" value="all"> 
+<input id="sortDir" type="hidden" name="searchParam[sortDir]" value="DESC"> 
+<input id="js-perpage" type="hidden" name="searchParam[perPage]" value="10">
+<div class="row">
+	<div class="col-md-6">
+		<h3><span class="glyphicon glyphicon-calendar"></span> Peremptions</h3>
+	</div>
+	<div class="col-md-6 links hidden-print">
+		<div id="reportrange" class="pull-right">
+            <i class="glyphicon glyphicon-calendar"></i>
+            <span></span> <b class="caret"></b>
+        </div>
+	</div>
+</div>
+<table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr> 
+                    <th>index</th>
+                    <th>code</th>
+                    <th>Dci</th>
+                    <th>Quantite</th>
+                    <th>Prix</th>
+                    <th>valeur</th>
+                    <th>Contionnement</th>
+                    <th>Utilisation</th>
+                    <th>Date de Peremption</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="datacontainer"></tbody>
+        </table>
+</form>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    <script src="{{ asset('js/moment-with-langs.min.js') }}"></script>
+    <script src="{{ asset('js/daterangepicker.js') }}"></script>
+<script> 
+(function($) {
+    function init(){
+        pageInput.val('1');
+        $('#reportrange span').html(moment().subtract('years', 2).format('D MMMM YYYY') + ' - ' + moment().format('D MMMM YYYY'));
+        date = moment().subtract('years', 2).format('YYYY/MM/DD') + ' - ' + moment().format('YYYY/MM/DD');
+      }
+	  var widgetsForm = $('#js-form'),
+        datacontainer = $('#datacontainer'),
+        pageInput = $('#pagenumber'),
+        sortByInput = $('#sortBy'),
+        sortDirInput = $('#sortDir'),
+        sortBtn = $('.js-sort');
+
+    function ajaxPost(date) {
+        datacontainer.addClass('working');
+        if(!date){
+        	$('#reportrange span').html(moment().subtract('years', 2).format('D MMMM YYYY') + ' - ' + moment().format('D MMMM YYYY'));
+  			date = moment().subtract('years', 2).format('YYYY/MM/DD') + ' - ' + moment().format('YYYY/MM/DD');
+  		}
+        $.ajax({ 
+          url: '{{ path('peremption_stock') }}?daterange='+date, 
+          type: 'POST', 
+          data: widgetsForm.serialize(),
+          success: function(data){ 
+            datacontainer.removeClass('working');
+            datacontainer.empty().hide().html(data).fadeIn();
+          }
+        });
+        return false;
+    };
+
+    widgetsForm.on('submit', function() {
+    	ajaxPost();
+    	return false;
+    });    
+    moment.lang('fr');
+	$('#reportrange').daterangepicker(
+		{
+		   	startDate: moment().subtract('years', 2),
+		   	endDate: moment(),
+		   	minDate: moment().subtract('years', 2).format('DD/MM/YYYY'),
+		   	maxDate: moment().add('years', 5).format('DD/MM/YYYY'),
+		   	dateLimit: { days: 840 },
+		   	showDropdowns: true,
+		   	showWeekNumbers: 0,
+		   	timePicker: false,
+		   	timePickerIncrement: 1,
+		   	timePicker12Hour: true,
+		   	ranges: {
+		   	   'Tous les perimés': [moment().subtract('years', 2), moment().subtract('days', 1)],
+		   	   'Ce mois': [moment().startOf('month'), moment().endOf('month')],
+		   	   'D\'ici 6 mois': [moment(), moment().add('month', 6).endOf('month')],
+		   	   'D\'ici une année': [moment(), moment().add('years', 1)],
+		   	},
+		   	opens: 'left',
+		   	buttonClasses: ['btn btn-default'],
+		   	applyClass: 'btn-small btn-primary',
+		   	cancelClass: 'btn-small',
+		   	format: 'DD/MM/YYYY',
+		   	separator: ' à ',
+		   	locale: {
+		   		applyLabel: 'OK',
+		   		fromLabel: 'Entre',
+		   		toLabel: 'et',
+		   		customRangeLabel: 'Période personnalisée',
+		   		daysOfWeek: "dim_lun_mar_mer_jeu_ven_sam".split("_"),
+		   		monthNames: "janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),
+		   		firstDay: 0
+		   	}
+	    },
+	    function(start, end) {
+		    $('#reportrange span').html(start.format('D MMMM YYYY') + ' - ' + end.format('D MMMM YYYY'));
+		    ajaxPost(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
+	    }
+	);
+
+  	//Set the initial state of the picker label
+  	
+  	/* submit the form after loading the page*/
+      init();
+      ajaxPost();
+
+})(jQuery);
+</script>
+{% endblock %}
+

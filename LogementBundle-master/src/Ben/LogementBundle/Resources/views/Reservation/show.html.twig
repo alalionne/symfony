@@ -1,0 +1,87 @@
+{% extends "BenLogementBundle::layout.html.twig" %}
+{% block title %}
+Tableau de bord | {{ parent() }}
+{% endblock %}
+{% block body %}
+<div class="col-md-12 hidden-print"><h3>Réservation #{{ entity.id }}</h3></div>
+<h3 class="visible-print">Autorisation d'encaisse</h3>
+<div class="col-md-9">
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>N° de quitance</th>
+                <td>{{ entity.reference }}</td>
+            </tr>
+            <tr>
+                <th>N° dossier</th>
+                <td>{{ entity.person.nDossier }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ entity.person.fullName }}</td>
+            </tr>
+            {% if entity.person.type == person.foreign %}
+            <tr>
+                <th>N° de passport</th>
+                <td>{{ entity.person.passport }}</td>
+            </tr>
+            <tr>
+                <th>Carte de séjour</th>
+                <td>{{ entity.person.carteSejour }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <th>CIN</th>
+                <td>{{ entity.person.cin }}</td>
+            </tr>
+            <tr>
+                <th>CNE</th>
+                <td>{{ entity.person.cne }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>Chambre</th>
+                <td>{{ entity.room.name }}</td>
+            </tr>
+            <tr>
+                <th>Pavillon</th>
+                <td>{{ entity.room.block.name }}</td>
+            </tr>
+            <tr>
+                <th>Cité</th>
+                <td>{{ entity.room.block.logement.name }}</td>
+            </tr>
+            <tr>
+                <th>Date début</th>
+                <td>{{ entity.datefrom|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <th>Date fin</th>
+                <td>{{ entity.dateto|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ entity.status }}</td>
+            </tr>
+            <tr>
+                <th>Montant à payer</th>
+                <td>{{ entity.price }} DH</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="visible-print pull-right">
+    Fait à {{ app_config.app_city }} le {{ 'now'|date('d/m/Y')}}
+</div>
+
+<div class="col-md-3 hidden-print">
+    <form action="{{ path('reservation_delete', { 'id': entity.id }) }}" method="post" class="">
+        {{ form_widget(delete_form) }}
+        <a class="btn btn-primary btn-block" href="{{ path('reservation_edit', { 'id': entity.id }) }}"> Modifier</a>
+        <a id="btnPrint" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-print"></span> imprimer</a>
+        <button type="submit" class="btn btn-embossed btn-danger btn-block"> Supprimer </button>
+    </form>
+</div>
+
+{% endblock body %}

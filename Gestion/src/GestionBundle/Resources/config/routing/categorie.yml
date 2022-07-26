@@ -1,0 +1,19 @@
+categorie_index:
+    path:     /
+    defaults: { _controller: GestionBundle:Categorie:index }
+
+categorie_add:
+    path:     /add
+    defaults: { _controller: AdminBundle:Categorie:add }
+
+categorie_view:
+    path:     /view/{id}
+    defaults: { _controller: AdminBundle:Categorie:view }
+
+categorie_edit:
+    path:     /edit/{id}
+    defaults: { _controller: AdminBundle:Categorie:edit }
+
+categorie_delete:
+    path:     /delete/{id}
+    defaults: { _controller: AdminBundle:Categorie:delete }

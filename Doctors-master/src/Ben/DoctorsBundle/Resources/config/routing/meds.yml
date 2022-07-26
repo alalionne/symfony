@@ -1,0 +1,40 @@
+meds:
+    path:     /
+    defaults: { _controller: "BenDoctorsBundle:Meds:index" }
+
+meds_ajax:
+    path:     /ajaxlist
+    defaults: { _controller: "BenDoctorsBundle:Meds:ajaxList" }
+    requirements: { _method: post }
+
+meds_show:
+    path:     /{id}/show
+    defaults: { _controller: "BenDoctorsBundle:Meds:show" }
+
+meds_new:
+    path:     /new
+    defaults: { _controller: "BenDoctorsBundle:Meds:new" }
+
+meds_create:
+    path:     /create
+    defaults: { _controller: "BenDoctorsBundle:Meds:create" }
+    requirements: { _method: post }
+
+meds_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BenDoctorsBundle:Meds:edit" }
+
+meds_update:
+    path:     /{id}/update
+    defaults: { _controller: "BenDoctorsBundle:Meds:update" }
+    requirements: { _method: post|put }
+
+meds_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BenDoctorsBundle:Meds:delete" }
+    requirements: { _method: post|delete }
+
+meds_remove:
+    path:     /remove
+    defaults: { _controller: "BenDoctorsBundle:Meds:remove" }
+    requirements: { _method: post|delete }

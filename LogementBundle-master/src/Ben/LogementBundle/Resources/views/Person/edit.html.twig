@@ -1,0 +1,118 @@
+{% extends "BenLogementBundle::layout.html.twig" %}
+{% block title %}
+Tableau de bord | {{ parent() }}
+{% endblock %}
+{% block stylesheet %}
+{{ parent() }}
+        <link href="{{ asset('css/select2.css') }}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+<div class="col-md-12"><h3><span class="glyphicon glyphicon-edit"></span> Mise à jour d'un etudiant</h3></div>
+<div id="formFeedback" class="alert alert-danger col-md-12 hide"></div>
+<form id="ajaxForm" class="form-horizontal" action="{{ path('etudiant_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
+
+    {% include "BenLogementBundle:Person:form.html.twig" %}
+
+    <div class="form-group">
+      <div class="col-sm-offset-4 col-sm-4">
+        <button type="submit" name="subvalider" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Mettre à jour</button>
+      </div>
+    </div>
+</form>
+
+{% endblock body %}
+
+
+{% block javascripts %}
+{{ parent() }}
+    <script src="{{ asset('js/select2.min.js') }}"></script>
+<script> 
+    (function($) {
+        var form = $('#ajaxForm'),
+            formFeedback = $('#formFeedback'),
+            parentSelect = form.find('#university'),
+            childSelect = form.find('#ben_persontype_etablissement'),
+            cneInput = form.find('#ben_persontype_cne'),
+            cinInput = form.find('#ben_persontype_cin'),
+            passportInput = form.find('#ben_persontype_passport'),
+            sejourInput = form.find('#ben_persontype_carte_sejour'),
+            cycleInput = form.find('#ben_persontype_diplome'),
+            noteInput = form.find('#ben_persontype_exellence'),
+            revenuInput = form.find('#ben_persontype_parents_revenu'),
+            etabInput = form.find('#ben_persontype_etablissement');
+            
+        parentSelect.on('change', function(){
+            var url = '{{ path('university_json', {'id': 1111 }) }}',
+                html ='';
+            url = url.replace("1111", this.value);
+            $.ajax({  
+              url: url, 
+              dataType : 'json',
+              success: function(data){ 
+                form.removeClass('working');
+                $.each(data, function(i, item){
+                    html += '<option value="'+item.id+'">'+item.name+'</option>'
+                });
+                childSelect.html(html);
+              },
+              error:function(){
+                  alert('service denied');
+                  form.removeClass('working');
+              }
+            });
+        });
+
+        form.submit(function(){
+          var errors = [],
+              html='';
+
+          {% if personType == person.foreign %}
+            if(passportInput.val()==="") errors.push('N° passport est obligatoire');
+            if(sejourInput.val()==="") errors.push('N° de la carte de séjour est obligatoire');
+          {% else %}
+            if(!validateCin(cinInput.val())) errors.push('CIN non valide ');
+            if(!validateCne(cneInput.val())) errors.push('CNE non valide: il doit contenir 10 chiffres');
+          {% endif %}
+          {% if personType == person.new %}
+            if(!validateFloat(noteInput.val()) || parseInt(noteInput.val()) > 20) errors.push('Note du Baccalauréat non valide (ex: 15.30)');
+            if(!validateFloat(revenuInput.val())) errors.push('Revenu des parents non valide (ex: 5700.90)');
+          {% endif %}
+          if(etabInput.val()==="") errors.push('L\'etablissement est obligatoire');
+
+          if(errors.length > 0){
+            html = '<ul><li>';
+            html += errors.join('</li><li>');
+            html += '</li></ul>';
+            formFeedback.html(html).removeClass('hide');
+            scrollTo(formFeedback);
+            return false;
+          }
+        });
+
+        form.find('select').removeClass('form-control').select2();
+
+        cycleData = ['Licence','DUT','Diplôme de l\'ENCG','Diplôme Ingénieur d\'Etat','Médecine','Médecine Dentaire','Doctorat','Master'];
+
+        cycleData = $.map(cycleData, function(val,index){return {id:val, text:val};});
+        cycleInput.removeClass('form-control').select2({
+          createSearchChoice:function(term, data) { if ($(data).filter(function() { return this.text.localeCompare(term)===0; }).length===0) {return {id:term, text:term};} },
+          multiple: false,
+          data: cycleData
+          });
+        
+        {% if personType == person.special %}
+        var specialInput = form.find('#ben_persontype_condition_special'),
+            specialData = ['Handicapé', 'Ancien combattant', 'Ancien militaire', 'Pupille de l’état', 'Gendarmerie Royale militaire', 'Sud'];
+        specialData = $.map(specialData, function(val,index){return {id:val, text:val};});
+        specialInput.removeClass('form-control').select2({
+          createSearchChoice:function(term, data) { 
+            if ($(data).filter(function() { return this.text.localeCompare(term)===0; }).length===0) {return {id:term, text:term};} 
+          },
+          multiple: false,
+          data: specialData
+        });
+        {% endif %}
+    })(jQuery);
+</script>
+{% endblock %}
+

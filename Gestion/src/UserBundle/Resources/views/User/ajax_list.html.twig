@@ -1,0 +1,44 @@
+{% for entity in entities %}
+  <tr>
+    <td>{{ loop.index }}</td>
+    <td>{% if entity.image is not null %}
+    <img class="img-small" src="{{ asset(entity.image.webPath)}}" alt={{entity.image.alt}}>
+    {% else %}
+    <img class="img-small" src="{{ asset('uploads/img/anonymous.png')}}">
+    {% endif %}
+    </td>
+    <td>{{ entity.username }}</td>
+    <td>{{ entity.nom }}</td>
+    <td>{{ entity.prenom }}</td>
+    <td>{{ entity.email }}</td>
+
+    <td>{{ entity.tel }}</td>
+    <td>    
+        {% for role in entity.roles%}
+           {% if (role == 'ROLE_ADMIN') %} 
+                Administrateur
+           {% else %}
+                Utilisateur
+           {% endif %}
+        {% endfor %}</td>
+    <td class="hidden-print">
+        <div class="text-center">
+            <a class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="afficher" href="{{ path('user_view', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-search"></span></a>
+            
+            <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="modifier" href="{{ path('user_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-edit"></span></a>
+
+            <a class="btn btn-danger btn-xs"  data-toggle="tooltip" data-placement="top" title="modifier" href="{{ path('user_delete', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-trash"></span></a>
+        </div>
+    </td>
+  </tr>
+{% endfor %}
+                
+{% include "GestionBundle:Default:pagination.html.twig" %}
+<script>   
+(function($) {
+
+    /* tooltip */
+    $('a[data-toggle="tooltip"]').tooltip();
+
+})(jQuery);
+</script>

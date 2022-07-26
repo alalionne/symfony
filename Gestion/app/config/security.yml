@@ -1,0 +1,32 @@
+
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        main:
+            id: fos_user.user_provider.username_email
+
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern:      ^/
+            anonymous:    true
+            provider:     main
+            form_login:
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+            logout:       true
+            remember_me:
+                secret:     %secret% # %secret% est un paramètre de parameter
+        login:
+            pattern:  ^/login$
+            security: false

@@ -1,0 +1,197 @@
+{% extends "BenDoctorsBundle::layout.html.twig" %}
+{% block title %}
+Tableau de bord | {{ parent() }}
+{% endblock %}
+    {% block stylesheet %}
+   {{ parent() }}   
+        <link href="{{ asset('css/daterangepicker-bs3.css') }}" rel="stylesheet"><!-- Loading my css -->
+        <style>
+			.links #reportrange, .links .btn {margin-top: 20px; margin-left: 5px;}
+			.links .btn{padding: 7px 16px !important;}
+        </style>
+    {% endblock %}
+{% block body -%}
+
+<form action="#" id="js-form">
+<div class="row">
+	<div class="col-md-6">
+		<h3><span class="glyphicon glyphicon-stats"></span> Statistiques</h3>
+	</div>
+	<div class="col-md-6 links hidden-print">
+		<div id="reportrange" class="pull-right">
+            <i class="glyphicon glyphicon-calendar"></i>
+            <span>August 26, 2014 - August 26, 2014</span> <b class="caret"></b>
+        </div>
+		<a class="btn btn-primary pull-right" id="btnPrint"><span class="glyphicon glyphicon-print"></span> imprimer</a>
+		<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#widgetModal"><span class="glyphicon glyphicon-filter"></span> Indicateurs clés</a>
+	</div>
+</div>
+<!-- Modal advanced widget -->
+<div class="modal fade" id="widgetModal" tabindex="-1" role="dialog" aria-labelledby="widgetModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 700px;">
+    <div class="modal-content">
+      <div class="modal-body" style="padding: 0;">
+      <table class="table table-striped table-hover table-bordered" style="margin: 0;">
+      	<thead>
+      		<tr>
+      			<th><input type="checkbox" id="checkall" data-toggle="checkbox"></th>
+      			<th>Indicateurs clés <button type="submit" class="btn btn-xs btn-primary pull-right">Envoyer</button></th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<tr>
+				<td><input type="checkbox" id="meds" name="widgets[meds]" data-toggle="checkbox"></td>
+				<td>Médicament délivré par le centre</td>
+			</tr>   						
+			<tr>
+				<td><input type="checkbox" id="stock" name="widgets[stock]" data-toggle="checkbox"></td>
+				<td>Nombre de médicament dans le stock</td>
+			</tr>				
+			<tr>
+				<td><input type="checkbox" id="cnss" name="widgets[cnss]" data-toggle="checkbox"></td>
+				<td>Effectif des étudiants ayant une couverture sociale par type de couverture</td>
+			</tr>				
+			<tr>
+				<td><input type="checkbox" id="consultations_demande" name="widgets[consultations_demande]" data-toggle="checkbox"></td>
+				<td>Nombre des consultations médicales à la demande</td>
+			</tr>				 
+			<tr>
+				<td><input type="checkbox" id="consultations_demande_gender" name="widgets[consultations_demande_gender]" data-toggle="checkbox"></td>
+				<td>Nombre des consultations médicales à la demande par sexe</td>
+			</tr>				
+			<tr>
+				<td><input type="checkbox" id="consultations_demande_resident" name="widgets[consultations_demande_resident]" data-toggle="checkbox"></td>
+				<td>Nombre des résidents ayant subi une consultation médicale à la demande</td>
+			</tr>				 
+			<tr>
+				<td><input type="checkbox" id="consultations_demande_resident_gender" name="widgets[consultations_demande_resident_gender]" data-toggle="checkbox"></td>
+				<td>Nombre des résidents ayant subi une consultation médicale à la demande par sexe </td>
+			</tr>				
+			<tr>
+				<td><input type="checkbox" id="consultations_systematique_resident" name="widgets[consultations_systematique_resident]" data-toggle="checkbox"></td>
+				<td>Nombre des résidents ayant subi un examen médical systématique </td>
+			</tr>				
+			<tr>
+				<td><input type="checkbox" id="consultations_systematique_resident_gender" name="widgets[consultations_systematique_resident_gender]" data-toggle="checkbox"></td>
+				<td>Nombre des résidents ayant subi un examen médical systématique </td>
+			</tr>				
+			<tr>
+				<td><input type="checkbox" id="consultations_visual_issue" name="widgets[consultations_visual_issue]" data-toggle="checkbox"></td>
+				<td>Nombre des résidents ayant subi un examen médical systématique </td>
+			</tr>				
+			<tr>
+				<td><input type="checkbox" id="consultations_special" name="widgets[consultations_special]" data-toggle="checkbox"></td>
+				<td>Nombre des malades orientés vers la consultation médicale spécialisée par spécialité médicale </td>
+			</tr>				
+			<tr>
+				<td><input type="checkbox" id="consultations_special_gender" name="widgets[consultations_special_gender]" data-toggle="checkbox"></td>
+				<td>Nombre des malades ayant subi une consultation médicale spécialisée par spécialité et par sexe </td>
+			</tr>				
+			<tr>
+				<td><input type="checkbox" id="consultations_chronic" name="widgets[consultations_chronic]" data-toggle="checkbox"></td>
+				<td>Nombre  de cas des maladies chroniques </td>
+			</tr>				
+			<tr>
+				<td><input type="checkbox" id="consultations_not_chronic" name="widgets[consultations_not_chronic]" data-toggle="checkbox"></td>
+				<td>Nombre  de cas des maladies dépistées </td>
+			</tr>				
+			<tr>
+				<td><input type="checkbox" id="consultations_structures" name="widgets[consultations_structures]" data-toggle="checkbox"></td>
+				<td>Nombre  de cas des maladies chroniques</td>
+			</tr>
+      	</tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+<div class="row" id="datacontainer" style="min-height: 400px;">
+
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    <script src="{{ asset('js/moment-with-langs.min.js') }}"></script>
+    <script src="{{ asset('js/daterangepicker.js') }}"></script>
+<script> 
+(function($) {
+	var widgetsForm = $('#js-form'),
+		widgetModal = $('#widgetModal'),
+        datacontainer = $('#datacontainer');
+    function ajaxPost(date) {
+        datacontainer.addClass('working');
+		widgetModal.modal('hide');
+        if(!date){
+        	$('#reportrange span').html(moment().subtract('days', 29).format('D MMMM YYYY') + ' - ' + moment().format('D MMMM YYYY'));
+  			date = moment().subtract('days', 29).format('YYYY/MM/DD') + ' - ' + moment().format('YYYY/MM/DD');
+  		}
+        $.ajax({ 
+          url: '{{ path('ben_stats') }}?daterange='+date, 
+          type: 'POST', 
+          data: widgetsForm.serialize(),
+          success: function(data){ 
+            datacontainer.removeClass('working');
+            datacontainer.empty().hide().html(data).fadeIn();
+          }
+        });
+        return false;
+    };
+
+    widgetsForm.on('submit', function() {
+    	ajaxPost();
+    	return false;
+    });
+	widgetModal.modal('show');
+    
+    moment.lang('fr');
+	$('#reportrange').daterangepicker(
+		{
+		   	startDate: moment().subtract('days', 29),
+		   	endDate: moment(),
+		   	minDate: '01/01/2013',
+		   	maxDate: moment().format('DD/MM/YYYY'),
+		   	dateLimit: { days: 840 },
+		   	showDropdowns: true,
+		   	showWeekNumbers: 0,
+		   	timePicker: false,
+		   	timePickerIncrement: 1,
+		   	timePicker12Hour: true,
+		   	ranges: {
+		   	   'Aujourd\'hui': [moment(), moment()],
+		   	   'Hier': [moment().subtract('days', 1), moment().subtract('days', 1)],
+		   	   '7 jours précédents': [moment().subtract('days', 6), moment()],
+		   	   '30 jours précédents': [moment().subtract('days', 29), moment()],
+		   	   'Ce mois': [moment().startOf('month'), moment().endOf('month')],
+		   	   'Mois précedent': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+		   	},
+		   	opens: 'left',
+		   	buttonClasses: ['btn btn-default'],
+		   	applyClass: 'btn-small btn-primary',
+		   	cancelClass: 'btn-small',
+		   	format: 'DD/MM/YYYY',
+		   	separator: ' à ',
+		   	locale: {
+		   		applyLabel: 'OK',
+		   		fromLabel: 'Entre',
+		   		toLabel: 'et',
+		   		customRangeLabel: 'Période personnalisée',
+		   		daysOfWeek: "dim_lun_mar_mer_jeu_ven_sam".split("_"),
+		   		monthNames: "janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),
+		   		firstDay: 0
+		   	}
+	    },
+	    function(start, end) {
+		    $('#reportrange span').html(start.format('D MMMM YYYY') + ' - ' + end.format('D MMMM YYYY'));
+		    ajaxPost(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
+	    }
+	);
+
+  	//Set the initial state of the picker label
+  	// ajaxPost();
+
+})(jQuery);
+</script>
+{% endblock %}
+

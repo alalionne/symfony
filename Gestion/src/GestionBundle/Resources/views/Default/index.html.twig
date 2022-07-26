@@ -1,0 +1,13 @@
+{% extends "GestionBundle::layout.html.twig" %}
+{% block title %}
+Gestion Dash | {{ parent() }}
+{% endblock %}
+{% block body %}
+
+<h3><span class="fa fa-home fa-lg"></span> Accueil</h3>
+<img width="100%" src="{{ asset('images/medocs.jpg')}}"/>
+{% endblock body %}
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}
+

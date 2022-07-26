@@ -1,0 +1,38 @@
+{% set route = app.request.attributes.get('_route') %} 
+
+{% set dashMenu = ['gestion_dashboard'] %} 
+{% set produitMenu = ['produit_index','produit_add','produit_view','produit_edit'] %} 
+{% set destinationMenu = ['destination_index','destination_add','destination_view', 'destination_edit'] %} 
+
+{% set categorieMenu = ['categorie_index','categorie_add','categorie_view', 'categorie_edit','categorie_delete'] %}
+{% set entreeMenu = ['entree_index','entree_add','entree_view', 'entree_edit'] %} 
+{% set sortieMenu = ['sortie_index','sortie_add','sortie_view', 'sortie_edit'] %}
+{% set userMenu = ['user_index','user_add','user_view', 'user_edit'] %}
+{% set stockMenu = ['stock_index','stock_view','peremption_index'] %}
+{% set utilisationMenu = ['utilisation_index','utilisation_add','utilisation_view', 'utilisation_edit'] %}
+
+
+<nav id="adminmenu">
+    <ul class="top-menu">
+        <li class="{% if route not in dashMenu %}not-{% endif %}current"><a href="{{path('gestion_dashboard')}}"><span class="fa fa-home fa-lg"></span> <span class="menu-title">Accueil</span></a></li>
+        <li class="{% if route not in categorieMenu %}not-{% endif %}current"><a href="{{path('categorie_index')}}"><span class="fa fa-list fa-lg"></span> <span class="menu-title">Discipline</span></a>
+        </li>
+        <li class="{% if route not in produitMenu %}not-{% endif %}current"><a href="{{path('produit_index')}}"><span class="fa fa-medkit fa-lg"></span> <span class="menu-title">Produit</span></a>
+        </li>
+        <li class="{% if route not in destinationMenu %}not-{% endif %}current"><a href="{{path('destination_index')}}"><span class="fa fa-address-card fa-lg"></span> <span class="menu-title">Destinataire</span></a>
+        </li>
+        <li class="{% if route not in entreeMenu %}not-{% endif %}current"><a href="{{path('entree_index')}}"><span class="fa fa-sign-in fa-lg"></span> <span class="menu-title">Entrée</span></a>
+        </li>
+        <li class="{% if route not in sortieMenu %}not-{% endif %}current"><a href="{{path('sortie_index')}}"><span class="fa fa-sign-out fa-lg"></span> <span class="menu-title">Sortie</span></a>
+        </li>
+        {% if is_granted("ROLE_ADMIN") %}
+        <li class="{% if route not in userMenu %}not-{% endif %}current"><a href="{{path('user_index')}}"><span class="fa fa-users fa-lg"></span> <span class="menu-title">Utilisateurs</span></a>
+        </li>
+        {% endif %}
+        <li class="{% if route not in stockMenu %}not-{% endif %}current"><a href="{{path('stock_index')}}"><span class="fa fa-cart-plus fa-lg"></span> <span class="menu-title">Stock</span></a>
+        </li>
+        <li class="{% if route not in utilisationMenu %}not-{% endif %}current"><a href="{{path('utilisation_index')}}"><span class="fa fa-bar-chart fa-lg"></span> <span class="menu-title"> Utilisation</span></a>
+        </li>
+        <li class="not-current"><a href="#" id="trigger-shelf"><span class="glyphicon glyphicon-chevron-left block"></span><span class="menu-title">Reduire - menu</span></a></li>
+    </ul>
+</nav>

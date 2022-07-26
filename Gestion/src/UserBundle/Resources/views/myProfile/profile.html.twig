@@ -1,0 +1,48 @@
+{% extends "GestionBundle::layout.html.twig" %}
+{% block title %}
+Profile - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<h3><span class=" glyphicon glyphicon-user"></span> Mon Profil</h3>
+<form class="form-horizontal col-md-8" action="{{ path('user_profile_update', { 'id': entity.id }) }}" method="POST">
+
+  <div class="form-group">
+    <label for="" class="col-md-6 control-label">Photo</label>
+    <div class="col-md-6">
+      <img class="myavatar col-md-4" src="{{ asset(entity.image.webPath)}}">
+    </div>
+  </div>
+  <div class="form-group">
+    {{ form_label(form.username, "Identifiant") }}
+    {{ form_errors(form.username) }}
+    {{ form_widget(form.username, {'attr': {'class': 'form-control disabled', 'disabled': 'disabled'}}) }}
+  </div>
+  <div class="form-group">
+    {{ form_label(form.plainpassword, "Mot de passe") }}
+    {{ form_errors(form.plainpassword) }}
+    {{ form_widget(form.plainpassword, {'attr': {'class': 'form-control disabled', 'disabled': 'disabled'}}) }}
+  </div>
+  <div class="form-group">
+    {{ form_label(form.nom, "Nom") }}
+    {{ form_errors(form.nom) }}
+    {{ form_widget(form.nom, {'attr': {'class': 'form-control disabled', 'disabled': 'disabled'}}) }}
+  </div>
+  <div class="form-group">
+    {{ form_label(form.prenom, "Prénom") }}
+    {{ form_errors(form.prenom) }}
+    {{ form_widget(form.prenom, {'attr': {'class': 'form-control disabled', 'disabled': 'disabled'}}) }}
+  </div>
+  <div class="form-group">
+    {{ form_label(form.email, "Adresse email") }}
+    {{ form_errors(form.email) }}
+    {{ form_widget(form.email, {'attr': {'class': 'form-control disabled', 'disabled': 'disabled'}}) }}
+  </div>
+  <div class="form-group">
+    {{ form_label(form.tel, "Téléphone") }}
+    {{ form_errors(form.tel) }}
+    {{ form_widget(form.tel, {'attr': {'class': 'form-control disabled', 'disabled': 'disabled'}}) }}
+  </div>
+
+</form>
+{% endblock %}

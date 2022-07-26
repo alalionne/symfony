@@ -1,0 +1,31 @@
+admin_blog_latestForums:
+    path:     /latestForums
+    defaults: { _controller: ForumBundle:AdminBlog:latestForums }
+
+admin_blog_index:
+    path:     /index
+    defaults: { _controller: ForumBundle:AdminBlog:index }
+
+admin_blog_affiche:
+    path:     /
+    defaults: { _controller: ForumBundle:AdminBlog:affiche }
+
+admin_blog_add:
+    path:     /add
+    defaults: { _controller: ForumBundle:AdminBlog:add }
+
+admin_blog_view:
+    path:     /view/{id}
+    defaults: { _controller: ForumBundle:AdminBlog:view }
+
+admin_blog_edit:
+    path:     /edit/{id}
+    defaults: { _controller: ForumBundle:AdminBlog:edit }
+
+admin_blog_delete:
+    path:     /delete/{id}
+    defaults: { _controller: ForumBundle:AdminBlog:delete }
+
+admin_blog_blog:
+    path:     /blog/{id}
+    defaults: { _controller: ForumBundle:AdminBlog:blog }

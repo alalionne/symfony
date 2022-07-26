@@ -1,0 +1,39 @@
+experience_index:
+    path:     /
+    defaults: { _controller: AdminBundle:Experience:index }
+
+experience_add:
+    path:     /add
+    defaults: { _controller: AdminBundle:Experience:add }
+
+experience_update:
+    path:     /update/{id}
+    defaults: { _controller: AdminBundle:Experience:update }
+
+experience_delete:
+    path:     /delete/{id}
+    defaults: { _controller: AdminBundle:Experience:delete }
+
+experience_view:
+    path:     /view/{id}
+    defaults: { _controller: AdminBundle:Experience:view }
+
+experience_liste:
+    path:     /liste
+    defaults: { _controller: AdminBundle:Experience:liste }
+
+experience_presentation:
+    path:     /presentation/{id}
+    defaults: { _controller: AdminBundle:Experience:presentation }
+
+experience_recherche:
+    path:     /rechercher
+    defaults: { _controller: AdminBundle:Experience:rechercher }
+
+experience_cmb_matiere:
+    path:     /cmbMatiere/{id}
+    defaults: { _controller: AdminBundle:Experience:cmbMatiere }
+
+experience_medias:
+    path:     /medias/{id}
+    defaults: { _controller: AdminBundle:Experience:medias }

@@ -1,0 +1,19 @@
+{
+	"folders":
+	[
+		{
+			"folder_exclude_patterns":
+			[
+				"app/cache",
+				"app/logs",
+				"bin"
+			],
+			"follow_symlinks": true,
+			"path": "."
+		},
+		{
+			"follow_symlinks": true,
+			"path": "src\\Ben\\DoctorsBundle\\Resources\\views"
+		}
+	]
+}

@@ -1,0 +1,19 @@
+produit_index:
+    path:     /
+    defaults: { _controller: GestionBundle:Produit:index }
+
+produit_add:
+    path:     /add
+    defaults: { _controller: GestionBundle:Produit:add }
+
+produit_view:
+    path:     /view/{id}
+    defaults: { _controller: GestionBundle:Produit:view }
+
+produit_edit:
+    path:     /edit/{id}
+    defaults: { _controller: GestionBundle:Produit:edit }
+
+produit_delete:
+    path:     /delete/{id}
+    defaults: { _controller: GestionBundle:Produit:delete }

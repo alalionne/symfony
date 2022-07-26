@@ -1,0 +1,204 @@
+<?php
+
+namespace UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
+
+/**
+ * User
+ *
+ * @ORM\Table(name="user")
+ * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
+ */
+class User extends BaseUser
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=255, nullable=true)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prenom", type="string", length=255, nullable=true)
+     */
+    private $prenom;
+
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="tel", type="string", length=255, nullable=true)
+     */
+    private $tel;
+
+    /**
+     * @var \DateTime $created
+     *
+     * @ORM\Column(name="created", type="datetime")
+     */
+    protected $created;
+
+    /**
+    * @ORM\OneToOne(targetEntity="GestionBundle\Entity\Image", cascade={"remove", "persist"})
+    */
+    private $image;
+
+
+    /************ constructeur ************/
+    
+    public function __construct()
+    {
+        parent::__construct();
+        $this->created = new \DateTime;
+    }
+    
+    /************ getters & setters  ************/
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return User
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set prenom
+     *
+     * @param string $prenom
+     *
+     * @return User
+     */
+    public function setPrenom($prenom)
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    /**
+     * Get prenom
+     *
+     * @return string
+     */
+    public function getPrenom()
+    {
+        return $this->prenom;
+    }
+
+    /**
+     * Set tel
+     *
+     * @param string $tel
+     *
+     * @return User
+     */
+    public function setTel($tel)
+    {
+        $this->tel = $tel;
+
+        return $this;
+    }
+
+    /**
+     * Get tel
+     *
+     * @return string
+     */
+    public function getTel()
+    {
+        return $this->tel;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return User
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \GestionBundle\Entity\Image $image
+     *
+     * @return User
+     */
+    public function setImage(\GestionBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \GestionBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function getAvatar() 
+    {
+        return $this->getPhoto()->getWebPath();
+    }
+}

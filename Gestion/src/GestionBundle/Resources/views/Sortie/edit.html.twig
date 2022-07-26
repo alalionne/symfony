@@ -1,0 +1,39 @@
+{% extends "GestionBundle::layout.html.twig" %}
+
+{% block title %}
+    Sortie edit | {{ parent() }}
+{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link href="{{ asset('bootstrap/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <h3><span class="glyphicon glyphicon-edit"></span> Sortie</h3>
+    {{ form_start(form, {'attr': {'class': 'form-horizontal col-md-8'}}) }}
+        {% include "GestionBundle:Sortie:form.html.twig" %}
+        <div class="form-group">
+          <div class="col-md-offset-5 col-md-7">
+            <button type="submit" name="subvalider" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Modifier</button>
+            <a href="#" id="js-delete" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer</a>
+            <a href="{{ path('sortie_index') }}" class="btn btn-success"><span class="glyphicon glyphicon-chevron-left"></span> Retourner vers la liste</a>
+          </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock body %}
+
+{% block javascripts %}
+{{ parent() }}
+
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap-datetimepicker.js') }}"></script> 
+    <script> 
+    (function($) {
+        $('select').removeClass('form-control').select2();
+        $('.has-datepicker').attr('data-date-format', 'YYYY-MM-DD').parent().datetimepicker({
+          pickTime: false
+        });
+    })(jQuery);
+</script>
+{% endblock %}

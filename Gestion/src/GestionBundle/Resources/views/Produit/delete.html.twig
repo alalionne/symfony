@@ -1,0 +1,24 @@
+{% extends "GestionBundle::layout.html.twig"%}
+
+{% block title %}
+    Suppression edit | {{ parent() }}
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+                <h2>Suppression du produit</h2>
+                <p>
+                    Etes-vous certain de vouloir supprimer le produit "{{ entity.dci }}" ?
+                </p>
+
+                <form action="{{ path('produit_delete', {'id': entity.id}) }}" method="post">
+                    <a href="{{ path('produit_view', {'id': entity.id}) }}" class="btn btn-default">
+                    <i class="glyphicon glyphicon-chevron-left"></i>Retour</a>
+                    
+                    <input type="submit" value="Supprimer" class="btn btn-danger" />
+                    {# Ceci va générer le champ CSRF #}
+                    {{ form_rest(form) }}
+                </form>
+        </div>
+    </div>
+{% endblock %}

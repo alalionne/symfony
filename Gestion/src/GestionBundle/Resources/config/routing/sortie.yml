@@ -1,0 +1,19 @@
+evenement_index:
+    path:     /
+    defaults: { _controller: AdminBundle:Evenement:index }
+
+evenement_add:
+    path:     /add
+    defaults: { _controller: AdminBundle:Evenement:add }
+
+evenement_view:
+    path:     /view/{id}
+    defaults: { _controller: AdminBundle:Evenement:view }
+
+evenement_edit:
+    path:     /edit/{id}
+    defaults: { _controller: AdminBundle:Evenement:edit }
+
+evenement_delete:
+    path:     /delete/{id}
+    defaults: { _controller: AdminBundle:Evenement:delete }
